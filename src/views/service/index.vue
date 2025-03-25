@@ -13,7 +13,7 @@
       <el-table-column label="操作">
 
         <template #default="scope">
-          <div v-if="getUser().role == '0'">
+          <div v-if="getUser().role == '0' || getUser().role == '1'">
             <el-button text type="primary" @click="handleEdit(scope.$index, scope.row)">
               编辑
             </el-button>
@@ -22,7 +22,7 @@
               删除
             </el-button>
           </div>
-          <div v-else>
+          <div v-if="getUser().role == '2'">
             <el-button text type="primary" @click="handleReserve(scope.$index, scope.row)">
               预约
             </el-button>

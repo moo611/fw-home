@@ -67,7 +67,7 @@ const getInfo = () => {
 
     //动态获取路由
     let menus = []
-    if (user.role == '0') {
+    if (user.role == '0' || user.role == '1') {
 
       menus.push({ label: '信息管理', value: '/dashboard/user' })
       menus.push({label: '健康档案', value: '/dashboard/health'})

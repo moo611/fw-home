@@ -14,7 +14,7 @@
       <el-table-column label="操作">
 
         <template #default="scope">
-          <div v-if="getUser().role == '0'">
+          <div v-if="getUser().role == '0' || getUser().role == '1'">
             <el-button text type="primary" @click="handleEdit(scope.$index, scope.row)">
               编辑
             </el-button>
