@@ -9,7 +9,6 @@
       <el-table-column prop="nickname" label="姓名" />
       <el-table-column prop="sex" label="性别" :formatter="sexFormatter" />
       <el-table-column prop="age" label="年龄" />
-      <el-table-column prop="age" label="年龄" />
       <el-table-column prop="height" label="身高" />
       <el-table-column prop="weight" label="体重" />
       <el-table-column prop="bloodPressure" label="血压" />
@@ -36,7 +35,7 @@
     <el-dialog v-model="dialogVisible1" width="500" @close="clearData">
 
       <el-form class="form" :model="form" label-width="auto" style="max-width: 600px">
-        <el-form-item label="用户">
+        <el-form-item label="老人">
           <el-select v-model="form.username" placeholder="请选择" :disabled="mode == '1'">
             <el-option v-for="item in state.userList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
@@ -114,6 +113,7 @@ const clearData = () => {
   form.heartRate = null
   form.bloodSugar = null
  
+  mode='0'
 
 }
 const queryParams = reactive({

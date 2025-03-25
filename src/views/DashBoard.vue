@@ -78,7 +78,7 @@ const getInfo = () => {
       menus.push({ label: '活动列表', value: '/dashboard/activity' })
       menus.push({ label: '我的活动', value: '/dashboard/join' })
       menus.push({label: '服务列表', value: '/dashboard/service'})
-      menus.push({label: '我的服务', value: '/dashboard/reserve'})
+      menus.push({label: '我的预约', value: '/dashboard/reserve'})
     }
     menuList.value = menus
 
