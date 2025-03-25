@@ -3,7 +3,7 @@
     <div class="header">
 
       <el-button v-show=false type="primary" @click="getServiceList">查询</el-button>
-      <el-button v-show="getUser().role == '0'" @click="handleAdd" type="primary" class="btn-add">新增</el-button>
+      <el-button v-show="getUser().role == '0' || getUser().role == '1'" @click="handleAdd" type="primary" class="btn-add">新增</el-button>
     </div>
     <el-table class="my-table" :data="state.data.list">
       <el-table-column prop="name" label="服务名" />
