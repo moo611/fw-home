@@ -4,7 +4,7 @@
       <h1>养老院管理系统</h1>
     </div>
     <div>
-      <img src="../assets/logo.jpg"/>
+      <img src="../assets/yly.jpg"/>
     </div>
     <el-form class="form" :model="form" label-width="auto" style="width: 600px">
       <el-form-item label="用户名">

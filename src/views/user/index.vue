@@ -1,7 +1,13 @@
 <template>
   <div>
     <div class="header">
+      <el-upload class="btn-inport" :headers="{ 'Authorization': 'Bearer ' + getToken() }" action="http://localhost:3000/api/user/import"
+        ref="uploadRef" accept=".xls,.xlsx" :auto-upload="true" :limit="1" :on-exceed="handleExceed"
+        :show-file-list="false" :on-success="handleSuccess">
+        <el-button type="success" style="width: 100%; height: 100%;">导入</el-button>
+      </el-upload>
 
+      <el-button @click="handleExport" type="info" class="btn-export">导出</el-button>
       <el-button @click="handleAdd" type="primary" class="btn-add">新增</el-button>
     </div>
     <el-table class="my-table" :data="state.data.list">
@@ -9,7 +15,7 @@
       <el-table-column prop="username" label="用户名" />
       <el-table-column prop="nickname" label="昵称" />
       <el-table-column prop="age" label="年龄" />
-      <el-table-column prop="sex" label="性别" :formatter="sexFormatter"/>
+      <el-table-column prop="sex" label="性别" :formatter="sexFormatter" />
       <el-table-column prop="createTime" label="创建时间" />
 
       <el-table-column label="操作" width="180">
@@ -33,7 +39,7 @@
           <el-input v-model="form.username" v-if="mode == '0'" />
         </el-form-item>
         <el-form-item label="密码" v-if="mode == '0'">
-          <el-input v-model="form.password" type="password"/>
+          <el-input v-model="form.password" type="password" />
         </el-form-item>
         <el-form-item label="昵称">
           <el-input v-model="form.nickname" />
@@ -66,7 +72,9 @@
 import { reactive, ref } from 'vue';
 
 import axios from '../../axios';
+import myaxios from 'axios';
 import { ElMessage } from 'element-plus';
+import { getToken } from '../../utils/auth';
 let mode = '0'
 const queryParams = reactive({
   pageNum: 1,
@@ -78,13 +86,13 @@ const state = reactive({
   curUser: {}
 })
 
-const sexFormatter=(row,col,value)=>{
-  if(value == '0'){
+const sexFormatter = (row, col, value) => {
+  if (value == '0') {
     return '男'
   }
   return '女'
 }
-const sexOptions = [{value:'0',label:'男'},{value:'1',label:'女'}]
+const sexOptions = [{ value: '0', label: '男' }, { value: '1', label: '女' }]
 const form = reactive({
   username: '',
   password: '',
@@ -95,6 +103,7 @@ const form = reactive({
   id: ''
 
 })
+
 const dialogVisible1 = ref(false)
 
 const clearData = () => {
@@ -177,6 +186,50 @@ const onPageChange = (page, size) => {
   queryParams.pageNum = page
   getUserList()
 }
+const uploadRef = ref(null)
+
+const handleExceed = (files) => {
+  if (uploadRef.value) {
+    uploadRef.value.clearFiles();
+    const file = files[0];
+    file.uid = genFileId();
+    uploadRef.value.handleStart(file);
+  }
+};
+
+const handleSuccess = () => {
+  ElMessage.success('导入成功')
+  getUserList()
+}
+
+const handleExport = () => {
+  let params = { role: '2' }
+  myaxios({
+    url: '/api/user/export',
+    params: params,
+    method: 'GET',
+    responseType: 'blob' // 指定响应类型为 blob，处理二进制数据
+  }).then(response => {
+    // 创建一个 Blob 对象
+    const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+    // 创建下载链接
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.href = url;
+    link.setAttribute('download', '老人信息.xlsx'); // 设置下载文件名
+
+    // 触发下载
+    document.body.appendChild(link);
+    link.click();
+
+    // 移除链接
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }).catch(error => {
+    console.error("Download failed:", error);
+  });
+}
 
 getUserList()
 
@@ -195,5 +248,15 @@ getUserList()
 .btn-add {
   position: absolute;
   right: 20px;
+}
+
+.btn-inport {
+  position: absolute;
+  right: 180px;
+}
+
+.btn-export {
+  position: absolute;
+  right: 100px;
 }
 </style>

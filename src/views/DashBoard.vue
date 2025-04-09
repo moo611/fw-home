@@ -1,7 +1,9 @@
 <template>
   <div class="main">
     <div class="header">
+      <img src="../assets/yly.jpg" style="width: 60px; height: 60px;margin-left: 30px;"/>
       <h3 style="margin-left: 30px;">养老院管理系统</h3>
+      
       <div class="btn-logout">
         <el-popover v-model:visible="popoverVisible" placement="bottom" width="200">
           <el-button type="text" @click="logout">退出登录</el-button>
@@ -20,7 +22,8 @@
     <div class="content">
       <div class="sidebar">
 
-        <el-menu :default-active="activeMenu" router class="custom-menu">
+        <el-menu active-text-color="#ffd04b" background-color="#545c64" text-color="#fff" :default-active="activeMenu"
+          router class="custom-menu">
 
           <el-menu-item v-for="item, index in menuList" :index="item.value">
             <span>{{ item.label }}</span>
@@ -70,15 +73,15 @@ const getInfo = () => {
     if (user.role == '0' || user.role == '1') {
 
       menus.push({ label: '信息管理', value: '/dashboard/user' })
-      menus.push({label: '健康档案', value: '/dashboard/health'})
+      menus.push({ label: '健康档案', value: '/dashboard/health' })
       menus.push({ label: '活动管理', value: '/dashboard/activity' })
       menus.push({ label: '服务管理', value: '/dashboard/service' })
     } else {
-      
+
       menus.push({ label: '活动列表', value: '/dashboard/activity' })
       menus.push({ label: '我的活动', value: '/dashboard/join' })
-      menus.push({label: '服务列表', value: '/dashboard/service'})
-      menus.push({label: '我的预约', value: '/dashboard/reserve'})
+      menus.push({ label: '服务列表', value: '/dashboard/service' })
+      menus.push({ label: '我的预约', value: '/dashboard/reserve' })
     }
     menuList.value = menus
 
@@ -90,20 +93,14 @@ getInfo()
 </script>
 <style lang="css" scoped>
 /* 使用 ::v-deep 来覆盖 el-menu 的样式 */
-::v-deep .custom-menu {
-  font-size: 16px;
-  /* 设置菜单的字体大小 */
-  font-weight: 600;
-  background-color: transparent;
-}
 
-::v-deep .custom-menu .el-menu-item {
-  font-size: 16px;
-  /* 覆盖子元素 el-menu-item 的字体大小 */
-  font-weight: 600;
-  background-color: transparent;
+.custom-menu{
+  height: 100%;
 }
-
+::v-deep .custom-menu .el-menu-item{
+  font-size: 16px;
+  font-weight: 600;
+}
 .main {
   /* max-width: 1280px;
   margin: 0 auto;
